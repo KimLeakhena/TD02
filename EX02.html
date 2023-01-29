@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com/3.2.4"></script>
+    <script src="tween.js-main/dist/tween.umd.js"></script> 
+    <title>Document</title>
+    <style>
+        .Container
+        {
+            /* width: 50%; */
+            /* margin: auto; */
+            background-color: dimgrey;
+            /* height: 500px; */
+        }
+    </style>
+</head>
+<body class="Container">
+    <div class="flex items-center justify-center">
+        <button class="w-40 h-10 border border-sky-500 roounded-full text-[#fff] bg-black"
+        id="mybox" onmouseover="run()">
+            Click me 😝
+        </button>   
+    </div>     
+</body>
+<script>
+   
+     var mybox = document.getElementById('box')
+     
+
+     
+    function animate(time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+    }
+    requestAnimationFrame(animate)
+
+    const moveFromSourceToDest = (startX, startY, EndX, EndY) => {
+        const coords = {x: startX, y: startY} 
+        const tween = new TWEEN.Tween(coords) 
+            .to({x: EndX, y: EndY}, 10) 
+            .easing(TWEEN.Easing.Quadratic.Out) 
+            .onUpdate(() => {
+               
+                mybox.style.setProperty('transform', `translate(${coords.x}px, ${coords.y}px)`)
+            })
+            .start() 
+    }
+
+    var previous_x = 0
+    var previous_y = 0
+
+    mybox.onmouseover = ()=> {
+        var next_x = Math.floor(Math.random() * 200)
+        var next_y = Math.floor(Math.random() * 500)
+        moveFromSourceToDest(previous_x, previous_y, next_x, next_y)
+        previous_x = next_x
+        previous_y = next_y
+    }
+</script>
+</html>
